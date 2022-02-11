@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import Product from "./Product";
-import productService from "../services/productService";
 import { useDispatch, useSelector } from "react-redux";
 import { productsReceived } from "../actions/productsActions";
 
@@ -10,8 +9,7 @@ const Products = () => {
 
   useEffect(() => {
     const getProducts = async () => {
-      let data = await productService.getProducts();
-      dispatch(productsReceived(data));
+      dispatch(productsReceived());
     };
     getProducts();
   }, [dispatch]);

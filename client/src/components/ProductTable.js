@@ -14,7 +14,7 @@ const ProductTable = ({ products, setProducts, cart, setCart }) => {
   return (
     <>
       <main>
-        <Products cart={cart} setCart={setCart} />
+        <Products />
         <div className={isVisible ? "add-form visible" : "add-form"}>
           <Button
             onClick={handleClick}
@@ -24,8 +24,6 @@ const ProductTable = ({ products, setProducts, cart, setCart }) => {
           <h3>Add Product</h3>
           <AddProductForm
             handleClick={handleClick}
-            products={products}
-            setProducts={setProducts}
           />
         </div>
       </main>

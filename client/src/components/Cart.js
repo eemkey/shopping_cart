@@ -17,8 +17,7 @@ const Cart = () => {
 
   useEffect(() => {
     const getCartItems = async () => {
-      let data = await cartService.getCart();
-      dispatch(cartItemsReceived(data));
+      dispatch(cartItemsReceived());
     }
 
     getCartItems();

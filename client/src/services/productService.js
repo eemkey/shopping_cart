@@ -2,39 +2,21 @@ import axios from "axios";
 
 const baseUrl = "http://localhost:3001/api/";
 
-const getProducts = async () => {
-  const request = axios.get(`${baseUrl}products`);
-  // console.log(request.data)
-  return request.then((response) => response.data);
-};
-
-const getProduct = async (id) => {
-  const request = await axios.get(`${baseUrl}products/${id}`);
-  return request.data;
-  // return request.then((response) => response.data)
-};
-
-// product to add
-const addProduct = async (newProduct) => {
-  const request = axios.post(`${baseUrl}products`, { ...newProduct });
-  return request.then((response) => response.data);
-};
-
-const editProduct = async (id, updatedObject) => {
-  const request = axios.put(`${baseUrl}products/${id}`, { ...updatedObject });
-  return request.then((response) => response.data);
-};
-
-const deleteProduct = async(id) => {
-  const request = axios.delete(`${baseUrl}products/${id}`)
-  return request.then((response) => response.data)
-}
-
 const productService = {
-  getProducts,
-  getProduct,
-  addProduct,
-  editProduct,
-  deleteProduct
-}
+  getProducts: (callback) => {
+    return axios.get(`${baseUrl}products`)
+      .then((response) => response.data)
+      .then(callback).catch((err) => console.log(err))
+  },
+  addProduct: (newProduct, callback) => {
+    return axios.post(`${baseUrl}products`, { ...newProduct }).then((response) => response.data).then(callback).catch((err) => console.log(err))
+  },
+  editProduct: (id, updatedObject, callback) => {
+    return axios.put(`${baseUrl}products/${id}`, { ...updatedObject }).then((response) => response.data).then(callback).catch((err) => console.log(err));
+  },
+  deleteProduct: async(id, callback) => {
+    return axios.delete(`${baseUrl}products/${id}`).then((response) => response.data).then(callback).catch((err) => console.log(err))
+  },
+}  
+
 export default productService
