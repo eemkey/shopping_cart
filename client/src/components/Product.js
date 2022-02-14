@@ -1,23 +1,18 @@
-import React, {useState} from "react";
+import React, { useState, useContext } from "react";
 import Button from "./Button";
 import EditProductForm from "./EditProductForm";
-import { addItemToCart } from "../actions/cartActions"
-import { useDispatch } from "react-redux";
-import { deleteProduct } from "../actions/productsActions";
-import productService from "../services/productService";
-import cartService from "../services/cartService";
+import {
+  ProductContext,
+  editProduct,
+  deleteProduct,
+  decreaseInventory,
+} from "../context/product-context";
+import { CartContext, addToCart } from "../context/cart-context";
 
 const Product = ({ product }) => {
- const [isEdit, setIsEdit] = useState(false);
-  const dispatch = useDispatch();
-
-  const handleAddToCart = async (e) => {
-    e.preventDefault();
-    let id = product._id
-    let item = {};
-    ({ product, item } = await cartService.addToCart(id));
-    dispatch(addItemToCart( { product, item }));
-  }
+  const [isEdit, setIsEdit] = useState(false);
+  const { dispatch: productsDispatch } = useContext(ProductContext);
+  const { dispatch: cartDispatch } = useContext(CartContext);
 
   const handleToggle = () => {
     setIsEdit(!isEdit);
@@ -28,29 +23,38 @@ const Product = ({ product }) => {
     handleToggle();
   };
 
+  const handleSubmit = async (updatedObject) => {
+    editProduct(productsDispatch, product._id, updatedObject, handleToggle);
+  };
+
   const handleDelete = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     if (window.confirm(`By pressing OK "${product.title}" will be deleted`)) {
-      await productService.deleteProduct(product._id);
-      dispatch(deleteProduct(product));
+      deleteProduct(productsDispatch, product._id);
     }
-  }
+  };
+
+  const handleAddToCart = (e) => {
+    e.preventDefault();
+    addToCart(cartDispatch, product._id);
+    decreaseInventory(productsDispatch, product._id);
+  };
 
   const addButtonState = () => {
-    let state = "button add-to-cart"
+    let state = "button add-to-cart";
     if (product.quantity === 0) {
-      state += " disabled"
+      state += " disabled";
     }
-    return state  
-  }
+    return state;
+  };
 
   const quantityClass = () => {
-    let classState = "quantity"
+    let classState = "quantity";
     if (product.quantity === 0) {
-      classState += " none-left"
+      classState += " none-left";
     }
-    return classState
-  }
+    return classState;
+  };
 
   return (
     <div className="product">
@@ -61,13 +65,19 @@ const Product = ({ product }) => {
         <div className="actions product-actions">
           {isEdit ? (
             <EditProductForm
-              toggleEdit={handleToggle}
+              onSubmit={handleSubmit}
               cancelClick={handleClick}
-              product={product}
+              title={product.title}
+              price={product.price}
+              quantity={product.quantity}
             />
           ) : (
             <>
-              <Button onClick={handleAddToCart} name={addButtonState()} text="Add to Cart" />
+              <Button
+                onClick={handleAddToCart}
+                name={addButtonState()}
+                text="Add to Cart"
+              />
               <Button onClick={handleClick} name="button edit" text="Edit" />
             </>
           )}

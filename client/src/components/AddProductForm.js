@@ -1,20 +1,16 @@
-import React, { useState } from "react";
+import { useState, useContext } from "react";
 import Button from "./Button";
-import productService from "../services/productService";
-import { useDispatch } from "react-redux";
-import { addProduct } from "../actions/productsActions"
+import { addProduct, ProductContext } from "../context/product-context";
 
-const AddProductForm = ({ products, setProducts, handleClick }) => {
+const AddProductForm = ({ handleClick }) => {
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
   const [quantity, setQuantity] = useState("");
-  const dispatch = useDispatch();
+  const { dispatch } = useContext(ProductContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let data = await productService.addProduct({ title, price, quantity });
-    dispatch(addProduct(data))
-    resetInputs();
+    addProduct(dispatch, { title, price, quantity }, resetInputs);
     handleClick(e);
   };
 
@@ -60,7 +56,12 @@ const AddProductForm = ({ products, setProducts, handleClick }) => {
       </div>
 
       <div className="actions form-actions">
-        <Button onClick={handleSubmit} name="button" text="Add" testId="submit"/>
+        <Button
+          onClick={handleSubmit}
+          name="button"
+          text="Add"
+          testId="submit"
+        />
         <Button onClick={handleClick} name="button" text="Cancel" />
       </div>
     </form>

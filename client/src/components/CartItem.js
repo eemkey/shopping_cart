@@ -1,6 +1,6 @@
 import React from "react";
 
-const CartItem = ({cItem}) => {
+const CartItem = ({ cItem }) => {
   return (
     <>
       <td>{cItem.title}</td>
