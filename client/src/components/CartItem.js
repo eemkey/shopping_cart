@@ -1,6 +1,6 @@
 import React from "react";
 
-const CartItem = ({cItem}) => {
+const CartItem = ({ cItem }) => {
   return (
     <>
       <td>{cItem.title}</td>
@@ -11,7 +11,3 @@ const CartItem = ({cItem}) => {
 };
 
 export default CartItem;
-
-/* 
-table with Item, Quantity and Price;
-*/

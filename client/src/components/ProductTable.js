@@ -3,7 +3,7 @@ import Products from "./Products";
 import Button from "./Button";
 import AddProductForm from "./AddProductForm";
 
-const ProductTable = ({ products, setProducts, cart, setCart }) => {
+const ProductTable = () => {
   const [isVisible, setIsVisible] = useState(false);
 
   const handleClick = (e) => {
@@ -22,9 +22,7 @@ const ProductTable = ({ products, setProducts, cart, setCart }) => {
             text="Add a Product"
           />
           <h3>Add Product</h3>
-          <AddProductForm
-            handleClick={handleClick}
-          />
+          <AddProductForm handleClick={handleClick} />
         </div>
       </main>
     </>

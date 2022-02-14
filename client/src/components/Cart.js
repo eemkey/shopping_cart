@@ -4,22 +4,22 @@ import CartItem from "./CartItem";
 import Button from "./Button";
 
 const Cart = () => {
-  const { cartItems, dispatch } = useContext(CartContext)
+  const { cartItems, dispatch } = useContext(CartContext);
 
   useEffect(() => {
-    getCart(dispatch)
-  }, [dispatch])
+    getCart(dispatch);
+  }, [dispatch]);
 
   const handleCheckout = (e) => {
     e.preventDefault();
     checkout(dispatch);
-  }
+  };
 
   const cartTotal = () => {
-    let sum = 0 
-    cartItems.forEach(item => sum += (item.quantity * item.price))
-    return sum.toFixed(2)
-  }
+    let sum = 0;
+    cartItems.forEach((item) => (sum += item.quantity * item.price));
+    return sum.toFixed(2);
+  };
 
   return (
     <div className="cart">
@@ -33,17 +33,17 @@ const Cart = () => {
           </tr>
         </thead>
         <tbody>
-            {cartItems.map(item => {
-              return (
-                <tr key={item._id}><CartItem
-                   cItem={item} 
-                /></tr>
-              );
-            })}
-          
+          {cartItems.map((item) => {
+            return (
+              <tr key={item._id}>
+                <CartItem cItem={item} />
+              </tr>
+            );
+          })}
+
           <tr>
             <td colSpan="3" className="total">
-             {`Total: $${cartTotal()}`}
+              {`Total: $${cartTotal()}`}
             </td>
           </tr>
         </tbody>

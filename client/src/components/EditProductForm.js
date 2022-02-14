@@ -1,11 +1,10 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import Button from "./Button";
 
 const EditProductForm = ({ onSubmit, cancelClick, title, price, quantity }) => {
   const [newTitle, setNewTitle] = useState(title);
   const [newPrice, setNewPrice] = useState(price);
   const [newQuantity, setNewQuantity] = useState(quantity);
-
 
   const handleSubmit = (e) => {
     e.preventDefault();

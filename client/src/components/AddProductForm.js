@@ -11,10 +11,7 @@ const AddProductForm = ({ handleClick }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // let data = await productService.addProduct({ title, price, quantity });
-    // setProducts(products.concat(data));
     addProduct(dispatch, { title, price, quantity }, resetInputs);
-    // resetInputs();
     handleClick(e);
   };
 

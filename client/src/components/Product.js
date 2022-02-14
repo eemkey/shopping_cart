@@ -1,7 +1,12 @@
 import React, { useState, useContext } from "react";
 import Button from "./Button";
 import EditProductForm from "./EditProductForm";
-import { ProductContext, editProduct, deleteProduct, decreaseInventory } from "../context/product-context";
+import {
+  ProductContext,
+  editProduct,
+  deleteProduct,
+  decreaseInventory,
+} from "../context/product-context";
 import { CartContext, addToCart } from "../context/cart-context";
 
 const Product = ({ product }) => {
@@ -19,37 +24,37 @@ const Product = ({ product }) => {
   };
 
   const handleSubmit = async (updatedObject) => {
-    editProduct(productsDispatch, product._id, updatedObject, handleToggle)
+    editProduct(productsDispatch, product._id, updatedObject, handleToggle);
   };
 
   const handleDelete = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     if (window.confirm(`By pressing OK "${product.title}" will be deleted`)) {
       deleteProduct(productsDispatch, product._id);
     }
-  }
+  };
 
   const handleAddToCart = (e) => {
     e.preventDefault();
     addToCart(cartDispatch, product._id);
     decreaseInventory(productsDispatch, product._id);
-  }
+  };
 
   const addButtonState = () => {
-    let state = "button add-to-cart"
+    let state = "button add-to-cart";
     if (product.quantity === 0) {
-      state += " disabled"
+      state += " disabled";
     }
-    return state  
-  }
+    return state;
+  };
 
   const quantityClass = () => {
-    let classState = "quantity"
+    let classState = "quantity";
     if (product.quantity === 0) {
-      classState += " none-left"
+      classState += " none-left";
     }
-    return classState
-  }
+    return classState;
+  };
 
   return (
     <div className="product">
@@ -68,7 +73,11 @@ const Product = ({ product }) => {
             />
           ) : (
             <>
-              <Button onClick={handleAddToCart} name={addButtonState()} text="Add to Cart" />
+              <Button
+                onClick={handleAddToCart}
+                name={addButtonState()}
+                text="Add to Cart"
+              />
               <Button onClick={handleClick} name="button edit" text="Edit" />
             </>
           )}
