@@ -1,18 +1,23 @@
-import React from "react";
+import { useContext, useEffect } from "react";
+import { CartContext, getCart, checkout } from "../context/cart-context";
 import CartItem from "./CartItem";
 import Button from "./Button";
-import cartService from "../services/cartService";
 
-const Cart = ({ cart, setCart }) => {
+const Cart = () => {
+  const { cartItems, dispatch } = useContext(CartContext)
+
+  useEffect(() => {
+    getCart(dispatch)
+  }, [dispatch])
+
   const handleCheckout = (e) => {
     e.preventDefault();
-    cartService.checkout();
-    setCart([]);
+    checkout(dispatch);
   }
 
   const cartTotal = () => {
     let sum = 0 
-    cart.forEach(item => sum += (item.quantity * item.price))
+    cartItems.forEach(item => sum += (item.quantity * item.price))
     return sum.toFixed(2)
   }
 
@@ -28,11 +33,10 @@ const Cart = ({ cart, setCart }) => {
           </tr>
         </thead>
         <tbody>
-          
-            {cart.map(item => {
+            {cartItems.map(item => {
               return (
-                <tr><CartItem
-                  key={item._id} cItem={item} 
+                <tr key={item._id}><CartItem
+                   cItem={item} 
                 /></tr>
               );
             })}

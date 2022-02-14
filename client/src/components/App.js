@@ -5,28 +5,28 @@ import productService from "../services/productService";
 import cartService from "../services/cartService";
 
 const App = () => {
-  const [products, setProducts] = useState([]);
-  const [cart, setCart] = useState([]);
+  // const [products, setProducts] = useState([]);
+  // const [cart, setCart] = useState([]);
 
-  useEffect(() => {
-    const getAllProducts = async () => {
-      let data = await productService.getProducts();
-      setProducts(data);
-    };
+  // useEffect(() => {
+  //   const getAllProducts = async () => {
+  //     let data = await productService.getProducts();
+  //     setProducts(data);
+  //   };
 
-    const getCartItems = async () => {
-      let data = await cartService.getCart();
-      setCart(data);
-    }
+  //   const getCartItems = async () => {
+  //     let data = await cartService.getCart();
+  //     setCart(data);
+  //   }
 
-    getAllProducts();
-    getCartItems();
-  }, []);
+  //   getAllProducts();
+  //   getCartItems();
+  // }, []);
 
   return (
     <div id="app">
-      <ShopHeader cart={cart} setCart={setCart} />
-      <ProductTable products={products} setProducts={setProducts} cart={cart} setCart={setCart} />
+      <ShopHeader />
+      <ProductTable />
     </div>
   );
 };

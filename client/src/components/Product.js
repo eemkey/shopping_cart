@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Button from "./Button";
 import EditProductForm from "./EditProductForm";
+import { ProductContext, editProduct, deleteProduct, decreaseInventory } from "../context/product-context";
+import { CartContext, addToCart } from "../context/cart-context";
 
-const Product = ({ onUpdate, onDelete, onAdd, product }) => {
+const Product = ({ product }) => {
   const [isEdit, setIsEdit] = useState(false);
+  const { dispatch: productsDispatch } = useContext(ProductContext);
+  const { dispatch: cartDispatch } = useContext(CartContext);
 
   const handleToggle = () => {
     setIsEdit(!isEdit);
@@ -15,20 +19,20 @@ const Product = ({ onUpdate, onDelete, onAdd, product }) => {
   };
 
   const handleSubmit = async (updatedObject) => {
-    onUpdate(updatedObject, product._id);
-    handleToggle();
+    editProduct(productsDispatch, product._id, updatedObject, handleToggle)
   };
 
   const handleDelete = async (e) => {
     e.preventDefault()
     if (window.confirm(`By pressing OK "${product.title}" will be deleted`)) {
-      onDelete(product._id)
+      deleteProduct(productsDispatch, product._id);
     }
   }
 
   const handleAddToCart = (e) => {
     e.preventDefault();
-    onAdd(product._id);
+    addToCart(cartDispatch, product._id);
+    decreaseInventory(productsDispatch, product._id);
   }
 
   const addButtonState = () => {

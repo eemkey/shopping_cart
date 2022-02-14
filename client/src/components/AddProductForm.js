@@ -1,17 +1,20 @@
-import React, { useState } from "react";
+import { useState, useContext } from "react";
 import Button from "./Button";
-import productService from "../services/productService";
+import { addProduct, ProductContext } from "../context/product-context";
 
-const AddProductForm = ({ products, setProducts, handleClick }) => {
+const AddProductForm = ({ handleClick }) => {
+  // const AddProductForm = ({ products, setProducts, handleClick }) => {
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
   const [quantity, setQuantity] = useState("");
+  const { dispatch } = useContext(ProductContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let data = await productService.addProduct({ title, price, quantity });
-    setProducts(products.concat(data));
-    resetInputs();
+    // let data = await productService.addProduct({ title, price, quantity });
+    // setProducts(products.concat(data));
+    addProduct(dispatch, { title, price, quantity }, resetInputs);
+    // resetInputs();
     handleClick(e);
   };
 
@@ -57,7 +60,12 @@ const AddProductForm = ({ products, setProducts, handleClick }) => {
       </div>
 
       <div className="actions form-actions">
-        <Button onClick={handleSubmit} name="button" text="Add" testId="submit"/>
+        <Button
+          onClick={handleSubmit}
+          name="button"
+          text="Add"
+          testId="submit"
+        />
         <Button onClick={handleClick} name="button" text="Cancel" />
       </div>
     </form>
