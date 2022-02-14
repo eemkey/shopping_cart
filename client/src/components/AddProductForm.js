@@ -3,7 +3,6 @@ import Button from "./Button";
 import { addProduct, ProductContext } from "../context/product-context";
 
 const AddProductForm = ({ handleClick }) => {
-  // const AddProductForm = ({ products, setProducts, handleClick }) => {
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
   const [quantity, setQuantity] = useState("");
