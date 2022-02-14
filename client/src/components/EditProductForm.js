@@ -1,19 +1,27 @@
 import React, { useState } from "react";
 import Button from "./Button";
+import axios from "axios";
+import { editProduct } from "../actions/productsActions";
+import { useDispatch } from "react-redux";
 
-const EditProductForm = ({ onSubmit, cancelClick, title, price, quantity }) => {
-  const [newTitle, setNewTitle] = useState(title);
-  const [newPrice, setNewPrice] = useState(price);
-  const [newQuantity, setNewQuantity] = useState(quantity);
 
-  const handleSubmit = (e) => {
+const EditProductForm = ({ toggleEdit, cancelClick, product }) => {
+  const [newTitle, setNewTitle] = useState(product.title);
+  const [newPrice, setNewPrice] = useState(product.price);
+  const [newQuantity, setNewQuantity] = useState(product.quantity);
+  const dispatch = useDispatch();
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     let updatedProduct = {
       title: newTitle,
       quantity: newQuantity,
       price: newPrice,
     };
-    onSubmit(updatedProduct);
+    const response = await axios.put(`/api/products/${product._id}`, {...updatedProduct});
+    const data = response.data
+    dispatch(editProduct(data))
+    toggleEdit()
   };
 
   return (
